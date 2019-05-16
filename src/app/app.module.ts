@@ -4,17 +4,17 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import { PurchaseComponentComponent } from './purchase-component/purchase-component.component';
+// import { PurchaseComponentComponent } from './purchase-component/purchase-component.component';
 import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
   {path: 'app', component: AppComponent},
-  {path: 'purchases', component: PurchaseComponentComponent},
+  // {path: 'purchases', component: PurchaseComponentComponent},
 ];
 @NgModule({
   declarations: [
     AppComponent,
-    PurchaseComponentComponent
+    // PurchaseComponentComponent
   ],
   imports: [
     BrowserModule,

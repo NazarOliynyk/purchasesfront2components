@@ -8,8 +8,8 @@
     <button (click)="signIn()" class="btn btn-primary">Sign in</button><br>
     <button (click)="logIn()" class="btn btn-primary">Log in</button><br>
     <button (click)="logOut()" class="btn btn-primary">Log out</button><br>
-    <button [disabled]="showGetUsersButton" (click)="goToPurchases()"
-            class="btn btn-primary">Go to purchases</button>
+    <button [disabled]="showDeleteUserButton" (click)="deleteAccount()"
+            class="btn btn-danger">Delete Account</button>
   </div>
 </nav>
 
@@ -35,16 +35,6 @@
              #passwordRef = 'ngModel'
              required minlength="4"
              name="password" placeholder="password" size="10"></label><br>
-
-    <!--<label>Email:<br>-->
-      <!--<input class="form-control"-->
-             <!--[(ngModel)]="user.email" type="email"-->
-             <!--[ngStyle]="{border: emailRef.invalid && emailRef.dirty?-->
-              <!--'3px solid red': '3px solid green'}"-->
-             <!--ngModel-->
-             <!--#emailRef = 'ngModel'-->
-             <!--required email-->
-             <!--name="email" placeholder="email" size="40"></label><br>-->
 
     <button [disabled]="registerForm.invalid"
             (click)="saveUser(registerForm)" type="button">Sign In</button>

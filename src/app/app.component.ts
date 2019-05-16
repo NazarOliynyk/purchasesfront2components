@@ -4,13 +4,14 @@ import {HttpHeaders} from '@angular/common/http';
 import {MainServiceService} from './services/main-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Purchase} from './models/Purchase';
+import {ResponseTransfer} from './models/ResponseTransfer';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   user: User = new User();
   userToLogin: User = new User();
@@ -20,14 +21,17 @@ export class AppComponent implements OnInit {
   showLoginForm = false;
   headersOption: HttpHeaders;
   responseOnDelete = '';
-  showGetUsersButton = true;
+  showDeleteUserButton = true;
+  showPurchases = false;
+  showAddPurchaseForm = true;
+  purchase: Purchase = new Purchase();
+  purchases: Purchase [] = [];
+  priceOfPurchase: any;
+  dateToDelete: Date;
+  responseTransfer: ResponseTransfer = new ResponseTransfer();
 
 
-  constructor(private mainService: MainServiceService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router
-  ) {
-  }
+  constructor(private mainService: MainServiceService) {  }
 
 
   signIn() {
@@ -56,10 +60,16 @@ export class AppComponent implements OnInit {
 
   }
 
+  getPurchases(user: User) {
+    this.headersOption =
+      new HttpHeaders({Authorization: localStorage.getItem('_token')});
+    this.mainService.getPurchases(user.id, this.headersOption).
+    subscribe(value => {this.purchases = value; },
+      error1 => {console.log('Failed to load purchases'); });
+  }
+
   logInto(loginForm: HTMLFormElement) {
-    //
-    // console.log(this.userToLogin.username);
-    // console.log(this.userToLogin.password);
+
     this.mainService.login(this.userToLogin).
     subscribe(
       value => {
@@ -67,10 +77,12 @@ export class AppComponent implements OnInit {
         const userLogged = value.headers.get('UserLogged');
 
         localStorage.setItem('_token', token);
-        // console.log('token: ' + token);
-        this.showGetUsersButton = false;
+        this.showLoginForm = false;
+        this.showDeleteUserButton = false;
         this.user = JSON.parse(userLogged);
         this.responseLogination = 'Hello: ' + this.user.username;
+        this.showPurchases = true;
+        this.getPurchases(this.user);
       },
       error1 => {
         this.responseLogination = 'Access denied';
@@ -82,25 +94,71 @@ export class AppComponent implements OnInit {
   logOut() {
     this.user = new User();
     this.userToLogin = new User();
+    this.purchase = new Purchase();
     localStorage.clear();
     this.showRegisterForm = false;
     this.showLoginForm = false;
+    this.showPurchases = false;
+    this.showDeleteUserButton = true;
     this.responseOnDelete = '';
     this.responseLogination = '';
     this.responseRegistration = '';
-    this.showGetUsersButton = true;
-    this.router.navigate(['purchases'],
-      {queryParams: this.user});
   }
 
-  goToPurchases() {
-    this.showLoginForm = false;
-    this.showRegisterForm = false;
-    this.router.navigate(['purchases'],
-      {queryParams: this.user});
+  deleteAccount() {
+    if (confirm('DO YOU REALLY WANT TO DELETE YOUR ACCOUNT???')) {
+
+      this.headersOption =
+        new HttpHeaders({Authorization: localStorage.getItem('_token')});
+      this.mainService.deleteUser(this.user, this.headersOption).
+      subscribe(data => {
+          alert(data.text);
+          this.showPurchases = false;
+          this.showLoginForm = false;
+          this.showRegisterForm = false; },
+        err => {console.log('err: ' + err.toString());
+                alert('Failed to delete!'); } );
+    }
   }
 
-  ngOnInit(): void {
+  savePurchase(addPurchaseForm) {
+    this.purchase.price = parseFloat(this.priceOfPurchase);
+    this.mainService.savePurchase(this.user.id, this.purchase, this.headersOption).
+    subscribe(value => {console.log(value.text);
+                        this.getPurchases(this.user); },
+      error1 => {console.log('Failed to save the purchase'); });
+  }
 
+  deletePurchases(dateToDeleteForm) {
+    if (confirm('DO YOU REALLY WANT TO DELETE YOUR purchases of: ' + this.dateToDelete.toString() + '???')) {
+      // this.dateToDelete = new Date();
+      this.responseTransfer.date = this.dateToDelete;
+      this.mainService.deleteByDate(this.user, this.responseTransfer, this.headersOption).
+      subscribe(value => {console.log(value.text);
+                          alert(value.text);
+                          this.showLoginForm = false;
+                          this.showRegisterForm = false;
+                          this.getPurchases(this.user); },
+        error1 => {console.log('Failed to delete');
+                   alert('Failed to delete'); });
+
+    }
+  }
+
+  // getRates() {
+  //   this.mainService.getRates().
+  //   subscribe(value => {
+  //                       console.log(value);
+  //                       console.log(value.rates.UAH);
+  //                       console.log(value.rates.EUR);
+  //                       console.log(value.date); });
+  // }
+
+  getRates() {
+    this.mainService.getRates(this.headersOption).
+    subscribe(value => {
+      console.log(value);
+      },
+      error1 => {console.log(error1); });
   }
 }
