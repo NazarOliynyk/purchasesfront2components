@@ -2,7 +2,7 @@ export class ResponseTransfer {
 
  // constructor(
     public text: string;
-    public price: number;
+    public sum: number;
     public date: Date;
  //   ) {  }
 }

@@ -20,32 +20,35 @@ export class AppComponent {
   responseLogination = '';
   showLoginForm = false;
   headersOption: HttpHeaders;
-  responseOnDelete = '';
   showDeleteUserButton = true;
   showPurchases = false;
-  showAddPurchaseForm = true;
   purchase: Purchase = new Purchase();
   purchases: Purchase [] = [];
   priceOfPurchase: any;
   dateToDelete: Date;
   responseTransfer: ResponseTransfer = new ResponseTransfer();
-
+  billingYear = '';
+  resultOnReport: number;
+  showResultOnReport = false;
+  years: string [] = ['2000', '2001', '2002', '2003', '2004', '2005', '2006',
+  '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
 
   constructor(private mainService: MainServiceService) {  }
 
-
   signIn() {
+    this.user = new User();
+    this.showPurchases = false;
     this.showRegisterForm = true;
     this.showLoginForm = false;
-    this.responseOnDelete = '';
     this.responseLogination = '';
     this.responseRegistration = '';
   }
 
   logIn() {
+    this.userToLogin = new User();
+    this.showPurchases = false;
     this.showLoginForm = true;
     this.showRegisterForm = false;
-    this.responseOnDelete = '';
     this.responseLogination = '';
     this.responseRegistration = '';
   }
@@ -65,27 +68,27 @@ export class AppComponent {
       new HttpHeaders({Authorization: localStorage.getItem('_token')});
     this.mainService.getPurchases(user.id, this.headersOption).
     subscribe(value => {this.purchases = value; },
-      error1 => {console.log('Failed to load purchases'); });
+      error1 => {console.log(error1);
+                 alert('Failed to load purchases'); });
   }
 
   logInto(loginForm: HTMLFormElement) {
-
+    this.showPurchases = false;
     this.mainService.login(this.userToLogin).
     subscribe(
       value => {
         const token = value.headers.get('Authorization');
         const userLogged = value.headers.get('UserLogged');
-
         localStorage.setItem('_token', token);
         this.showLoginForm = false;
         this.showDeleteUserButton = false;
         this.user = JSON.parse(userLogged);
-        this.responseLogination = 'Hello: ' + this.user.username;
+        this.responseLogination = 'HELLO! You logged in as: ' + this.user.username;
         this.showPurchases = true;
         this.getPurchases(this.user);
       },
-      error1 => {
-        this.responseLogination = 'Access denied';
+      error1 => { console.log(error1);
+                  this.responseLogination = 'Access denied';
       }
     );
 
@@ -100,9 +103,10 @@ export class AppComponent {
     this.showLoginForm = false;
     this.showPurchases = false;
     this.showDeleteUserButton = true;
-    this.responseOnDelete = '';
+    this.showResultOnReport = false;
     this.responseLogination = '';
     this.responseRegistration = '';
+    this.billingYear = '';
   }
 
   deleteAccount() {
@@ -139,26 +143,20 @@ export class AppComponent {
                           this.showLoginForm = false;
                           this.showRegisterForm = false;
                           this.getPurchases(this.user); },
-        error1 => {console.log('Failed to delete');
+        error1 => {console.log(error1);
                    alert('Failed to delete'); });
 
     }
   }
 
-  // getRates() {
-  //   this.mainService.getRates().
-  //   subscribe(value => {
-  //                       console.log(value);
-  //                       console.log(value.rates.UAH);
-  //                       console.log(value.rates.EUR);
-  //                       console.log(value.date); });
-  // }
-
-  getRates() {
-    this.mainService.getRates(this.headersOption).
-    subscribe(value => {
-      console.log(value);
-      },
-      error1 => {console.log(error1); });
+  report(billingYearForm) {
+    this.responseTransfer = new ResponseTransfer();
+    this.responseTransfer.text = this.billingYear;
+    this.mainService.report(this.user, this.responseTransfer, this.headersOption).
+      subscribe(value => {console.log(value.sum);
+                          this.showResultOnReport = true;
+                          this.resultOnReport = value.sum; },
+      error1 => {console.log(error1);
+                 alert('Failed to calculate'); });
   }
 }

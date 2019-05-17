@@ -15,9 +15,9 @@ export class MainServiceService {
   // urlFixer = 'http://data.fixer.io/api/latest\n' +
   //   '?access_key=229d1da7b736ef77d158ea0c224c4344\n' +
   //   '&symbols=USD,EUR,PLN,UAH';
-  urlFixer = 'http://data.fixer.io/api/2018-12-24\n' +
-    '?access_key=229d1da7b736ef77d158ea0c224c4344\n' +
-    '&symbols=USD,EUR,PLN,UAH';
+  // urlFixer = 'http://data.fixer.io/api/2018-12-24\n' +
+  //   '?access_key=229d1da7b736ef77d158ea0c224c4344\n' +
+  //   '&symbols=USD,EUR,PLN,UAH';
 
   constructor(
     private http: HttpClient
@@ -57,11 +57,9 @@ export class MainServiceService {
       this.url + '/deleteByDate/' + user.id, responseTransfer , {headers: headersOption});
   }
 
-  // getRates(): Observable<Rates> {
-  //   return this.http.get<Rates>(this.urlFixer);
-  // }
-
-  getRates(headersOption: HttpHeaders)  {
-    return this.http.get(this.url + '/getRates', {headers: headersOption});
+  report(user: User, responseTransfer: ResponseTransfer,
+         headersOption: HttpHeaders): Observable<ResponseTransfer> {
+    return this.http.post<ResponseTransfer>
+    (this.url + '/report/' + user.id, responseTransfer, {headers: headersOption});
   }
 }
