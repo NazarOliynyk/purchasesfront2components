@@ -1,8 +1,6 @@
 export class ResponseTransfer {
 
- // constructor(
-    public text: string;
-    public sum: number;
+    public text: any;
     public date: Date;
- //   ) {  }
+    public currency: CurrencyType;
 }

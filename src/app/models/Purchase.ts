@@ -1,7 +1,7 @@
 import {User} from './User';
 
 export class Purchase {
-  // constructor(
+
     public id = 0;
     public name = '';
     public price = 0;
@@ -9,5 +9,4 @@ export class Purchase {
     public currency: CurrencyType = null;
     public user: User;
 
- // ) {}
 }

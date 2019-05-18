@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {User} from './models/User';
 import {HttpHeaders} from '@angular/common/http';
 import {MainServiceService} from './services/main-service.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {Purchase} from './models/Purchase';
 import {ResponseTransfer} from './models/ResponseTransfer';
 
@@ -28,10 +27,11 @@ export class AppComponent {
   dateToDelete: Date;
   responseTransfer: ResponseTransfer = new ResponseTransfer();
   billingYear = '';
-  resultOnReport: number;
+  resultOnReport: any;
   showResultOnReport = false;
   years: string [] = ['2000', '2001', '2002', '2003', '2004', '2005', '2006',
   '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+  billingCurrency: CurrencyType;
 
   constructor(private mainService: MainServiceService) {  }
 
@@ -107,6 +107,8 @@ export class AppComponent {
     this.responseLogination = '';
     this.responseRegistration = '';
     this.billingYear = '';
+    // this.resultOnReport = null;
+    // this.billingCurrency = null;
   }
 
   deleteAccount() {
@@ -135,7 +137,7 @@ export class AppComponent {
 
   deletePurchases(dateToDeleteForm) {
     if (confirm('DO YOU REALLY WANT TO DELETE YOUR purchases of: ' + this.dateToDelete.toString() + '???')) {
-      // this.dateToDelete = new Date();
+
       this.responseTransfer.date = this.dateToDelete;
       this.mainService.deleteByDate(this.user, this.responseTransfer, this.headersOption).
       subscribe(value => {console.log(value.text);
@@ -152,10 +154,12 @@ export class AppComponent {
   report(billingYearForm) {
     this.responseTransfer = new ResponseTransfer();
     this.responseTransfer.text = this.billingYear;
+    this.responseTransfer.currency = this.billingCurrency;
+
     this.mainService.report(this.user, this.responseTransfer, this.headersOption).
-      subscribe(value => {console.log(value.sum);
+      subscribe(value => {
                           this.showResultOnReport = true;
-                          this.resultOnReport = value.sum; },
+                          this.resultOnReport = value.text; },
       error1 => {console.log(error1);
                  alert('Failed to calculate'); });
   }

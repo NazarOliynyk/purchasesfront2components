@@ -185,11 +185,30 @@
           </option>
         </select>
         </label><br>
+
+        <label>Currency:<br>
+          <select [(ngModel)]="billingCurrency" name="billingCurrency"
+                  class="form-control"
+                  [ngStyle]="{border: billingCurrencyRef.invalid && billingCurrencyRef.dirty?
+                  '3px solid red': '3px solid green'}"
+                  ngModel
+                  #billingCurrencyRef = 'ngModel'
+                  required
+          >
+            <option value="UAH">UAH</option>
+            <option value="PLN">PLN</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select>
+
+        </label><br>
+
         <button [disabled]="billingYearForm.invalid"
                 (click)="report(billingYearForm)" type="button">Report</button>
-      </form>
+      </form  >
+
         <h4 *ngIf="showResultOnReport" style="color: blueviolet">
-          Result : {{resultOnReport}}  UAH</h4>
+          Result : {{resultOnReport}}-{{billingCurrency}}</h4>
     </div>
 
 

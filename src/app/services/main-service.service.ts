@@ -4,7 +4,7 @@ import {User} from '../models/User';
 import {Observable} from 'rxjs';
 import {ResponseTransfer} from '../models/ResponseTransfer';
 import {Purchase} from '../models/Purchase';
-import {Rates} from '../models/Rates';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,6 @@ import {Rates} from '../models/Rates';
 export class MainServiceService {
 
    url = 'http://localhost:8080';
-  // urlFixer = 'http://data.fixer.io/api/latest\n' +
-  //   '?access_key=229d1da7b736ef77d158ea0c224c4344\n' +
-  //   '&symbols=USD,EUR,PLN,UAH';
-  // urlFixer = 'http://data.fixer.io/api/2018-12-24\n' +
-  //   '?access_key=229d1da7b736ef77d158ea0c224c4344\n' +
-  //   '&symbols=USD,EUR,PLN,UAH';
 
   constructor(
     private http: HttpClient
