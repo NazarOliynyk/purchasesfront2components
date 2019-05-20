@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from './models/User';
 import {HttpHeaders} from '@angular/common/http';
 import {MainServiceService} from './services/main-service.service';
@@ -10,7 +10,7 @@ import {ResponseTransfer} from './models/ResponseTransfer';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   user: User = new User();
   userToLogin: User = new User();
@@ -34,6 +34,18 @@ export class AppComponent {
   billingCurrency: CurrencyType;
 
   constructor(private mainService: MainServiceService) {  }
+
+  ngOnInit(): void {
+
+    if (localStorage.getItem('_token') !== null ) {
+      this.headersOption =
+        new HttpHeaders({Authorization: localStorage.getItem('_token')});
+      this.user = JSON.parse(localStorage.getItem('_userLogged'));
+      this.showPurchases = true;
+      this.responseLogination = 'HELLO! You logged in as: ' + this.user.username;
+      this.getPurchases(this.user);
+   }
+  }
 
   signIn() {
     this.user = new User();
@@ -80,6 +92,7 @@ export class AppComponent {
         const token = value.headers.get('Authorization');
         const userLogged = value.headers.get('UserLogged');
         localStorage.setItem('_token', token);
+        localStorage.setItem('_userLogged', userLogged);
         this.showLoginForm = false;
         this.showDeleteUserButton = false;
         this.user = JSON.parse(userLogged);
@@ -107,8 +120,8 @@ export class AppComponent {
     this.responseLogination = '';
     this.responseRegistration = '';
     this.billingYear = '';
-    // this.resultOnReport = null;
-    // this.billingCurrency = null;
+    this.resultOnReport = null;
+    this.billingCurrency = null;
   }
 
   deleteAccount() {
@@ -140,11 +153,10 @@ export class AppComponent {
 
       this.responseTransfer.date = this.dateToDelete;
       this.mainService.deleteByDate(this.user, this.responseTransfer, this.headersOption).
-      subscribe(value => {console.log(value.text);
-                          alert(value.text);
-                          this.showLoginForm = false;
-                          this.showRegisterForm = false;
-                          this.getPurchases(this.user); },
+      subscribe(value => { alert(value.text);
+                           this.showLoginForm = false;
+                           this.showRegisterForm = false;
+                           this.getPurchases(this.user); },
         error1 => {console.log(error1);
                    alert('Failed to delete'); });
 
@@ -163,4 +175,5 @@ export class AppComponent {
       error1 => {console.log(error1);
                  alert('Failed to calculate'); });
   }
+
 }
