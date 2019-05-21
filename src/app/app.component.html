@@ -169,8 +169,9 @@
               (click)="deletePurchases(dateToDeleteForm)" type="button">Clear</button>
     </form>
   </div>
-    <div >
-      <form #billingYearForm="ngForm">
+
+    <div style="width: 220px">
+      <form #billingYearForm="ngForm" >
         <h3>Report:</h3>
         <label>Year:<br>
         <select [(ngModel)]="billingYear" name="currency"
