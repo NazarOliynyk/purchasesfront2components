@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="reportForm" *ngIf="show">
+  <form #billingYearForm="ngForm" >
+    <h3>Report:</h3>
+    <label>Year:<br>
+    <select [(ngModel)]="billingYear" name="currency"
+    class="form-control"
+    [ngStyle]="{border: billingYearRef.invalid && billingYearRef.dirty?
+    '3px solid red': '3px solid green'}"
+    ngModel
+    #billingYearRef = 'ngModel'
+    required >
+    <option *ngFor="let y of years" value="{{y}}">
+      {{y}}
+    </option>
+    </select>
+    </label><br>
+
+    <label>Currency:<br>
+    <select [(ngModel)]="billingCurrency" name="billingCurrency"
+    class="form-control"
+    [ngStyle]="{border: billingCurrencyRef.invalid && billingCurrencyRef.dirty?
+    '3px solid red': '3px solid green'}"
+    ngModel
+    #billingCurrencyRef = 'ngModel'
+    required
+    >
+    <option value="UAH">UAH</option>
+    <option value="PLN">PLN</option>
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    </select>
+
+    </label><br>
+
+  <button [disabled]="billingYearForm.invalid"
+  (click)="report(billingYearForm)" type="button">Report</button>
+  </form  >
+
+  <h4 *ngIf="showResultOnReport" style="color: blueviolet">
+  Result : {{resultOnReport}}</h4>
+</div>
+
+<router-outlet></router-outlet>

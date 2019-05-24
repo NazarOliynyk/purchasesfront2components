@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="clearForm" *ngIf="showForm">
+  <form #dateToDeleteForm="ngForm">
+    <h3 style="color: snow">Clear:</h3>
+      <label>Date:<br>
+        <input class="form-control"
+        [(ngModel)]="dateToDelete" type="date"
+        [ngStyle]="{border: dateToDeleteRef.invalid && dateToDeleteRef.dirty?
+        '3px solid red': '3px solid green'}"
+        ngModel
+        #dateToDeleteRef = 'ngModel'
+        required datatype=""
+        name="dateToDelete" ></label><br>
+
+      <button [disabled]="dateToDeleteForm.invalid"
+      (click)="deletePurchases(dateToDeleteForm)" type="button">Clear</button>
+  </form>
+</div>
+
+<router-outlet></router-outlet>

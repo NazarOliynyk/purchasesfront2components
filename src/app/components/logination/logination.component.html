@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="logForm">
+  <form #loginForm="ngForm">
+      <h1>LOG IN:</h1>
+      <label>Login:<br>
+      <input  class="form-control"
+      [(ngModel)]="userToLogin.username" type="text"
+      [ngStyle]="{border: usernameRef.invalid && usernameRef.dirty?
+      '3px solid red': '3px solid green'}"
+      ngModel
+      #usernameRef = 'ngModel'
+      required minlength="4" maxlength="10"
+      name="username" placeholder="username" size="10"></label><br>
+
+      <label>Password:<br>
+      <input class="form-control"
+      [(ngModel)]="userToLogin.password" type="password"
+      [ngStyle]="{border: passwordRef.invalid && passwordRef.dirty?
+      '3px solid red': '3px solid green'}"
+      ngModel
+      #passwordRef = 'ngModel'
+      required minlength="4" maxlength="10"
+      name="password" placeholder="password" size="10"></label><br>
+
+
+  <button [disabled]="loginForm.invalid"
+  (click)="logInto(loginForm)" type="button">Log In</button>
+
+</form>
+
+</div>
+
+<h3 style="color: indigo">{{responseLogination}}</h3>
+
+
+<router-outlet></router-outlet>

@@ -29,6 +29,10 @@ export class MainServiceService {
       {observe: 'response'});
   }
 
+  findAllUsers(headersOption: HttpHeaders): Observable<User []> {
+    return this.http.get<User []>(this.url + '/admin/findAllUsers', {headers: headersOption});
+  }
+
   deleteUser(user: User, headersOption: HttpHeaders):
     Observable<ResponseTransfer> {
     return this.http.delete<ResponseTransfer>

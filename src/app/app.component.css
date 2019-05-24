@@ -1,13 +1,13 @@
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  background-color: antiquewhite;
-}
+/*.flex-container {*/
+  /*display: flex;*/
+  /*flex-wrap: wrap;*/
+  /*background-color: antiquewhite;*/
+/*}*/
 
-.flex-container > div {
-  border: 1px solid salmon;
-  margin: 5px;
-  padding: 5px;
-  font-size: 15px;
-}
+/*.flex-container > div {*/
+  /*border: 1px solid salmon;*/
+  /*margin: 5px;*/
+  /*padding: 5px;*/
+  /*font-size: 15px;*/
+/*}*/
 

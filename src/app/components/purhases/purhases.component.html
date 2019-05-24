@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<nav class="navbar " style="background: sandybrown">
+  <div class="container-fluid">
+    <h2 *ngIf="showGreeting">Hello: {{user.username}}</h2>
+    <button (click)="all()" class="btn btn-primary">All</button>
+    <button (click)="add()" class="btn btn-primary">Add</button>
+    <button (click)="clear()" class="btn btn-primary">Clear</button>
+    <button (click)="report()" class="btn btn-primary">Report</button>
+    <button [disabled]="showDeleteUserButton" (click)="deleteAccount()"
+    class="btn btn-danger">Delete Account</button>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

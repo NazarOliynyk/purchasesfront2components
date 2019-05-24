@@ -1,0 +1,22 @@
+
+<h4>Admin Component</h4>
+
+
+<div  class="tableStyle" *ngIf="show">
+  <h2>All users: </h2>
+  <table class="table table-hover"  >
+    <tr>
+      <th>Login of a User</th>
+      <th>Actions</th>
+
+    </tr>
+
+    <tr *ngFor="let u of users">
+      <td>{{u.username}}</td>
+      <td> <button (click)="delete(u)">DELETE</button></td>
+    </tr>
+  </table>
+</div>
+
+
+<router-outlet></router-outlet>
