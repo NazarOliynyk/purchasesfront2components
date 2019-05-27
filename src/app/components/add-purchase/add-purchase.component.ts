@@ -19,9 +19,7 @@ export class AddPurchaseComponent implements OnInit {
   responseOnSave: any;
   show = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private mainService: MainServiceService) { }
+  constructor(private mainService: MainServiceService) { }
 
   ngOnInit(): void {
 

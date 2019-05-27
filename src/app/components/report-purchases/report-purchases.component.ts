@@ -24,7 +24,6 @@ export class ReportPurchasesComponent implements OnInit {
   show = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
               private mainService: MainServiceService) { }
 
   ngOnInit(): void {
@@ -32,7 +31,6 @@ export class ReportPurchasesComponent implements OnInit {
     if (localStorage.getItem('_token') !== null ) {
       this.headersOption =
         new HttpHeaders({Authorization: localStorage.getItem('_token')});
-      this.user = JSON.parse(localStorage.getItem('_userLogged'));
       this.activatedRoute.queryParams.subscribe((data: User) => {
         this.user = data;
         this.show = true;

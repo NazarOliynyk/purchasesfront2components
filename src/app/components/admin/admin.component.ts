@@ -16,9 +16,7 @@ export class AdminComponent implements OnInit {
   headersOption: HttpHeaders;
   show = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private mainService: MainServiceService) { }
+  constructor( private mainService: MainServiceService) { }
 
   ngOnInit(): void {
 
@@ -42,8 +40,6 @@ export class AdminComponent implements OnInit {
   delete(u: User) {
     if (confirm('DO YOU REALLY WANT TO DELETE the ACCOUNT of: ' + u.username + '???')) {
 
-      this.headersOption =
-        new HttpHeaders({Authorization: localStorage.getItem('_token')});
       this.mainService.deleteUser(u, this.headersOption).
       subscribe(data => {
           alert(data.text);

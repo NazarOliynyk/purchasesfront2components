@@ -19,7 +19,6 @@ export class ClearPurchasesComponent implements OnInit {
   showForm = false;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
               private mainService: MainServiceService) { }
 
   ngOnInit(): void {

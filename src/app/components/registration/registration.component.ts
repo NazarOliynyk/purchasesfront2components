@@ -13,9 +13,8 @@ export class RegistrationComponent implements OnInit {
   user: User = new User();
   responseRegistration: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private mainService: MainServiceService) { }
+  constructor( private router: Router,
+               private mainService: MainServiceService) { }
 
   ngOnInit() {
   }

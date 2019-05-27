@@ -17,8 +17,7 @@ export class PurhasesComponent implements OnInit {
   showDeleteUserButton = true;
   showGreeting = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
+  constructor(private router: Router,
               private mainService: MainServiceService) { }
 
   ngOnInit(): void {
@@ -27,10 +26,6 @@ export class PurhasesComponent implements OnInit {
       this.headersOption =
         new HttpHeaders({Authorization: localStorage.getItem('_token')});
       this.user = JSON.parse(localStorage.getItem('_userLogged'));
-      this.activatedRoute.queryParams.subscribe((data: User) => {
-        this.user = data;
-        console.log(this.user.username);
-      });
       this.showDeleteUserButton = false;
       this.showGreeting = true;
    }
@@ -55,8 +50,6 @@ export class PurhasesComponent implements OnInit {
   deleteAccount() {
     if (confirm('DO YOU REALLY WANT TO DELETE YOUR ACCOUNT???')) {
 
-      this.headersOption =
-        new HttpHeaders({Authorization: localStorage.getItem('_token')});
       this.mainService.deleteUser(this.user, this.headersOption).
       subscribe(data => {
           alert(data.text);

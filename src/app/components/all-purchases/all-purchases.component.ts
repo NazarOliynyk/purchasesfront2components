@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../../models/User';
 import {HttpHeaders} from '@angular/common/http';
 import {Purchase} from '../../models/Purchase';
-import {ActivatedRoute, Router} from '@angular/router';
 import {MainServiceService} from '../../services/main-service.service';
 
 @Component({
@@ -16,9 +15,7 @@ export class AllPurchasesComponent implements OnInit {
   purchases: Purchase [] = [];
   show = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private mainService: MainServiceService) { }
+  constructor(private mainService: MainServiceService) { }
 
   ngOnInit(): void {
 
